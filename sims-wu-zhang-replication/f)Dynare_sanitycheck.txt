@@ -1,4 +1,4 @@
-%Macroeconomía 2 - UTDT
+%MacroeconomÃ­a 2 - UTDT
 %Juan Bonilla
 
 % Variables
@@ -6,7 +6,7 @@ var x r_s pi r_ast y_ast y qe a theta v;
 varexo epsilon_q epsilon_a epsilon_th epsilon_r;
 parameters z zigma b_fi b_cb gama zeta betta chi phi_pi phi_x ro_r ro_q ro_a ro_th ro_v;
 
-% Calibración
+% CalibraciÃ³n
 z = 0.33;
 zigma = 1;
 b_fi = 0.697;
