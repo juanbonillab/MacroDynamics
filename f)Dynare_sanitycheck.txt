@@ -1,0 +1,62 @@
+%Macroeconomía 2 - UTDT
+%Juan Bonilla
+
+% Variables
+var x r_s pi r_ast y_ast y qe a theta v;
+varexo epsilon_q epsilon_a epsilon_th epsilon_r;
+parameters z zigma b_fi b_cb gama zeta betta chi phi_pi phi_x ro_r ro_q ro_a ro_th ro_v;
+
+% Calibración
+z = 0.33;
+zigma = 1;
+b_fi = 0.697;
+b_cb = 0.303;
+gama = 0.0846;
+zeta = 2.4925;
+betta = 0.995;
+chi = 1;
+phi_pi = 1.5;
+phi_x = 0;
+ro_r  = 0.8;
+ro_q  = 0.8;
+ro_a  = 0.8;
+ro_th = 0.8;
+ro_v  = 0;
+
+% Modelo
+model;
+x = x(+1) - (1-z)/zigma*(r_s - pi(+1) - r_ast) - z*(b_fi*(theta(+1) - theta) + b_cb*(qe(+1)-qe));
+pi = gama * zeta * x - z * gama * zigma/(1-z) * (b_fi*theta + b_cb*qe) + betta*pi(+1);
+r_s = ro_r*r_s(-1) + (1-ro_r) * (phi_pi * pi + phi_x * x) + v;
+qe = ro_q * qe(-1) + epsilon_q;
+r_ast = (-1*(1-ro_a)*(1+chi)*zigma/(zigma+(1-z)*chi) ) * a;
+y_ast = ((1-z)*(1+chi)/(zigma+(1-z)*chi))*a;
+y = y_ast + x;
+a = ro_a*a(-1) + epsilon_a;
+theta = ro_th * theta(-1) + epsilon_th;
+v = ro_v * v(-1) + epsilon_r;
+end;
+
+%steady state
+
+initval;
+x = 0;
+pi = 0;
+r_s = 0;
+r_ast = 0;
+y_ast = 0;
+y = 0;
+qe = 0;
+a = 0;
+theta = 0;
+v = 0;
+end;
+
+shocks; 
+var epsilon_q  = 0.01^2;
+var epsilon_a  = 0.0125^2;
+var epsilon_th = 0.01^2;
+var epsilon_r  = 0.01^2;
+end;
+
+stoch_simul(order=1);

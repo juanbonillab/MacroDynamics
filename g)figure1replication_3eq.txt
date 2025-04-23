@@ -1,0 +1,59 @@
+%Macroeconomía 2 - UTDT
+%Juan Bonilla
+
+%TRES Ecuaciones
+
+% Variables
+var x r_s pi r_ast y_ast y theta a v;
+varexo epsilon_a epsilon_th epsilon_r;
+parameters sigma gama chi betta rho_r rho_a rho_th rho_v phi_pi phi_x;
+
+% Calibracion
+sigma  = 1;
+gama   = 0.0846;
+zeta   = 2.4925;
+betta  = 0.995;
+chi    = 1;
+phi_pi = 1.5;
+phi_x  = 0;
+rho_r   = 0.8;
+rho_q   = 0.8;
+rho_a   = 0.8;
+rho_th  = 0.8;
+rho_v   = 0;
+
+% Modelo
+model;
+x      = x(+1) - 1/sigma*(r_s - pi(+1) - r_ast);
+pi     = gama*(chi + sigma)*x + betta*pi(+1);
+r_s    = rho_r*r_s(-1) + (1 - rho_r)*(phi_pi*pi + phi_x*x) + v;
+r_ast = (-1*(1 - rho_a)*(1 + chi)*sigma/(sigma + chi))*a;
+y_ast = ((1 + chi)/(sigma + chi))*a; 
+y      = y_ast + x;
+a      = rho_a*a(-1) + epsilon_a;
+theta  = rho_th*theta(-1) + epsilon_th;
+v      = rho_v*v(-1) + (-1)*epsilon_r; 
+end;
+
+% Steady state 
+initval;
+x = 0;
+pi = 0;
+r_s = 0;
+r_ast = 0;
+y_ast = 0;
+y = 0;
+a = 0;
+theta = 0;
+v = 0;
+end;
+
+% Shocks
+
+shocks;
+var epsilon_a  = 0.0125;
+var epsilon_th = 0.01;
+var epsilon_r  = 0.01;
+end;
+
+stoch_simul(order=1);
