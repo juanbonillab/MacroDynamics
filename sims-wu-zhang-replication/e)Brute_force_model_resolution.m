@@ -1,7 +1,7 @@
-%MacroeconomÌa 2 - UTDT
+%Macroeconom√≠a 2 - UTDT
 %Juan Bonilla
 
-% Par·metros
+% Par√°metros
 
 z = 0.33;
 zigma = 1;
